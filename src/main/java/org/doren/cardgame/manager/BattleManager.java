@@ -5,8 +5,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.doren.cardgame.CardGame;
 import org.doren.cardgame.manager.battleListeners.PlayerCollisionDetection;
-import org.doren.cardgame.manager.battleListeners.onPlayerDamagedByPlayer;
-import org.doren.cardgame.manager.battleListeners.onPlayerRightClickedAnotherPlayer;
+import org.doren.cardgame.manager.battleListeners.PlayerDamageListener;
+import org.doren.cardgame.manager.battleListeners.PlayerRightClickListener;
 
 public class BattleManager {
     public void init(YamlConfiguration config) {
@@ -52,9 +52,9 @@ public class BattleManager {
     private Listener createBattleMethodListener(String battleMethod, boolean requiresShift) {
         switch (battleMethod.replace("shift-", "")) {
             case "left-click":
-                return new onPlayerDamagedByPlayer(requiresShift);
+                return new PlayerDamageListener(requiresShift);
             case "right-click":
-                return new onPlayerRightClickedAnotherPlayer(requiresShift);
+                return new PlayerRightClickListener(requiresShift);
             default:
                 return null;
         }
