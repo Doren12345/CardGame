@@ -7,7 +7,7 @@ import org.doren.cardgame.CardGame;
 
 public class PlayerCollisionDetection {
 
-    private final CardGame plugin = CardGame.getPlugin(CardGame.class);;
+    private final CardGame plugin = CardGame.getPlugin(CardGame.class);
 
     public PlayerCollisionDetection() {
         startCollisionCheckTask();
