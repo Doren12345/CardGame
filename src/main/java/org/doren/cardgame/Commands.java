@@ -14,68 +14,67 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class Commands implements CommandExecutor, TabCompleter {
+
     public Commands() {}
 
-    public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("cardgame")) {
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (!command.getName().equalsIgnoreCase("cardgame")) return false;
 
-            if (args.length == 0) return commandHelp(sender, null);
+        if (isCommandNotFoundOrHelp(args)) return handleHelpCommand(sender, args);
+        if (args[0].equalsIgnoreCase("battle")) return handleBattleCommand(sender, args);
+        if (args[0].equalsIgnoreCase("reload")) return handleReloadCommand(sender);
 
-            if (args[0].equalsIgnoreCase("help")) return commandHelp(sender, args);
-            if (args[0].equalsIgnoreCase("battle")) return commandBattle(sender, args);
-            if (args[0].equalsIgnoreCase("reload")) return commandReload(sender);
-        }
         return false;
     }
 
-    private boolean commandHelp(CommandSender sender, String[] args) {
+    private boolean isCommandNotFoundOrHelp(String[] args) {
+        return args.length == 0 || args[0].equalsIgnoreCase("help");
+    }
+
+    private boolean handleHelpCommand(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(Utils.getLangData("cmd-OnlyPlayerCanExecute"));
             return true;
         }
 
-        if (args == null || args.length < 2) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Utils.getLangData("cmd-help")));
-            Inventory inv = new GUI().generateInventoryFromConfig("battleUI");
-
-            Player player = (Player) sender;
-            player.openInventory(inv);
+        if (args.length < 2) {
+            sendHelpMessage((Player) sender);
             return true;
         }
 
-        // /cardgame help <cmd> args
+        String helpCommand = args[1].toLowerCase();
+        if (helpCommand.equals("help") || helpCommand.equals("reload")) {
+            sender.sendMessage(Utils.getLangData("cmd-help-" + helpCommand));
+            return true;
+        }
 
-        // /cardgame help help
-        if (args[1].equalsIgnoreCase("help")) {
-            sender.sendMessage(Utils.getLangData("cmd-help-help"));
-            return true;
-        }
-        // /cardgame help reload
-        if (args[1].equalsIgnoreCase("reload")) {
-            sender.sendMessage(Utils.getLangData("cmd-help-help"));
-            return true;
-        }
         return false;
     }
 
-    private boolean commandReload(CommandSender sender) {
+    private void sendHelpMessage(Player player) {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.getLangData("cmd-help")));
+        Inventory inv = new GUI().generateInventoryFromConfig("battleUI");
+        player.openInventory(inv);
+    }
+
+    private boolean handleReloadCommand(CommandSender sender) {
         CardGame plugin = CardGame.getPlugin(CardGame.class);
         plugin.reload();
         sender.sendMessage(Utils.getLangData("cmd-reload-successful"));
         return true;
     }
 
-    private boolean commandBattle(CommandSender sender, String[] args) {
-        if (args == null || args.length < 2) {
-            commandHelp(sender, new String[] {"help", "battle"});
-            return true;
+    private boolean handleBattleCommand(CommandSender sender, String[] args) {
+        if (args.length < 2) {
+            return handleHelpCommand(sender, new String[] {"help", "battle"});
         }
-        return false;
+        // 具體 battle 命令處理邏輯在此處實現
+        return true;
     }
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         return null;
     }
 }
