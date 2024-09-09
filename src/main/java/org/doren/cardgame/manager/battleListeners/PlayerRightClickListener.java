@@ -6,10 +6,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
-public class onPlayerRightClickedAnotherPlayer implements Listener {
+public class PlayerRightClickListener implements Listener {
+    @SuppressWarnings("FieldMayBeFinal")
     private boolean requireShift;
 
-    public onPlayerRightClickedAnotherPlayer(boolean requireShift) {
+    public PlayerRightClickListener(boolean requireShift) {
         this.requireShift = requireShift;
     }
 

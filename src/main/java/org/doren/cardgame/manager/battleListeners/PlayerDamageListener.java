@@ -6,10 +6,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class onPlayerDamagedByPlayer implements Listener {
+public class PlayerDamageListener implements Listener {
+    @SuppressWarnings("FieldMayBeFinal")
     private boolean requireShift;
 
-    public onPlayerDamagedByPlayer(boolean requireShift) {
+    public PlayerDamageListener(boolean requireShift) {
         this.requireShift = requireShift;
     }
 
