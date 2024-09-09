@@ -57,34 +57,36 @@ public final class CardGame extends JavaPlugin {
     }
 
     public void saveDefaultConfig() {
-        // 從 JAR 文件中讀取 configs 內所有檔案和資料夾
         try {
+            // 獲取 JAR 文件路徑
             File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+
             if (jarFile.isFile()) {
                 try (JarFile jar = new JarFile(jarFile)) {
-                    Enumeration<JarEntry> entries = jar.entries();
-                    while (entries.hasMoreElements()) {
-                        JarEntry entry = entries.nextElement();
-                        String entryName = entry.getName();
-
-                        // 處理 configs 目錄中的檔案和資料夾
-                        if (entryName.startsWith("configs/") && !entry.isDirectory()) {
-                            // 修改目標檔案路徑，移除 configs/ 前綴
-                            File targetFile = new File(getDataFolder(), entryName.substring("configs/".length()));
-                            if (!targetFile.exists()) {
-                                // 如果目標檔案不存在，則從資源複製
-                                try (InputStream inputStream = jar.getInputStream(entry)) {
-                                    Files.createDirectories(targetFile.getParentFile().toPath()); // 確保目標資料夾存在
-                                    Files.copy(inputStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                    getLogger().info("Copied missing file: " + entryName);
-                                }
-                            }
-                        }
-                    }
+                    jar.stream()
+                            .filter(entry -> entry.getName().startsWith("configs/") && !entry.isDirectory())
+                            .forEach(entry -> copyFileIfNotExists(jar, entry));
                 }
             }
         } catch (Exception e) {
             getLogger().severe("Failed to load configs: " + e.getMessage());
+        }
+    }
+
+    private void copyFileIfNotExists(JarFile jar, JarEntry entry) {
+        try {
+            String entryName = entry.getName();
+            File targetFile = new File(getDataFolder(), entryName.substring("configs/".length()));
+
+            if (!targetFile.exists()) {
+                Files.createDirectories(targetFile.getParentFile().toPath());
+                try (InputStream inputStream = jar.getInputStream(entry)) {
+                    Files.copy(inputStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    getLogger().info("Copied missing file: " + entryName);
+                }
+            }
+        } catch (IOException e) {
+            getLogger().severe("Failed to copy file: " + entry.getName() + " - " + e.getMessage());
         }
     }
 
