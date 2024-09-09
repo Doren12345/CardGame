@@ -28,7 +28,7 @@ public class battleGUI implements Listener {
 
     public battleGUI() {
 
-        if (UIconfig == null) {
+        if (UIconfig.getKeys(false).isEmpty()) {
             Bukkit.getLogger().warning("Configuration is not initialized.");
             return;
         }
