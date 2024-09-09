@@ -10,15 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.doren.cardgame.gui.GUI;
-import org.doren.cardgame.manager.BattleManager;
-import org.doren.cardgame.manager.LanguageManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Commands implements CommandExecutor, TabCompleter {
     public Commands() {}
