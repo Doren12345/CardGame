@@ -1,6 +1,5 @@
 package org.doren.cardgame;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.doren.cardgame.manager.BattleManager;
@@ -9,7 +8,6 @@ import org.doren.cardgame.manager.LanguageManager;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Enumeration;
 import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -17,48 +15,53 @@ import java.util.logging.Logger;
 
 public final class CardGame extends JavaPlugin {
 
-    // Logger
-    Logger logger = Bukkit.getLogger();
-    YamlConfiguration config;
-
-    @SuppressWarnings("FieldMayBeFinal")
-    private LanguageManager lang = new LanguageManager();
+    private Logger logger;
+    private YamlConfiguration config;
+    private LanguageManager lang;
 
     @Override
     public void onEnable() {
-        // load config into config
-        loadMainConfig();
+        logger = this.getLogger();
+        lang = new LanguageManager();
 
-        // language init
-        lang.initializeLanguageManager(getDataFolder(), config);
+        // 初始化配置和語言管理器
+        initializeConfigAndLanguage();
 
-        // command register
-        if (this.getCommand("cardgame") == null) this.getLogger().warning("Can't Find Command to Register: cardgame");
-        Objects.requireNonNull(this.getCommand("cardgame")).setExecutor(new Commands());
+        // 註冊命令
+        registerCommands();
 
-        // battle manager
+        // 初始化戰鬥管理器
         new BattleManager().init(config);
 
-        // enable message
+        // 啟用信息
         logger.info(Utils.getLangData("log-onenable"));
+    }
 
-
+    @Override
+    public void onDisable() {
+        logger.info("Plugin Disabled.");
     }
 
     public void reload() {
-        // load config into config
-        loadMainConfig();
-
-        // language init
-        lang.initializeLanguageManager(getDataFolder(), config);
-
-        // battle manager
+        initializeConfigAndLanguage();
         new BattleManager().init(config);
+    }
+
+    private void initializeConfigAndLanguage() {
+        loadMainConfig();
+        lang.initializeLanguageManager(getDataFolder(), config);
+    }
+
+    private void registerCommands() {
+        if (this.getCommand("cardgame") == null) {
+            logger.warning("Can't Find Command to Register: cardgame");
+        } else {
+            Objects.requireNonNull(this.getCommand("cardgame")).setExecutor(new Commands());
+        }
     }
 
     public void saveDefaultConfig() {
         try {
-            // 獲取 JAR 文件路徑
             File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
 
             if (jarFile.isFile()) {
@@ -69,7 +72,7 @@ public final class CardGame extends JavaPlugin {
                 }
             }
         } catch (Exception e) {
-            getLogger().severe("Failed to load configs: " + e.getMessage());
+            logger.severe("Failed to load configs: " + e.getMessage());
         }
     }
 
@@ -82,27 +85,20 @@ public final class CardGame extends JavaPlugin {
                 Files.createDirectories(targetFile.getParentFile().toPath());
                 try (InputStream inputStream = jar.getInputStream(entry)) {
                     Files.copy(inputStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    getLogger().info("Copied missing file: " + entryName);
+                    logger.info("Copied missing file: " + entryName);
                 }
             }
         } catch (IOException e) {
-            getLogger().severe("Failed to copy file: " + entry.getName() + " - " + e.getMessage());
+            logger.severe("Failed to copy file: " + entry.getName() + " - " + e.getMessage());
         }
     }
 
-    // 加載 config.yml
-    public void loadMainConfig() {
+    private void loadMainConfig() {
         saveDefaultConfig();
-
         config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml"));
         if (config.getKeys(false).isEmpty()) {
             logger.warning("Cannot Find The Main Config. Disabling Plugin...");
             getServer().getPluginManager().disablePlugin(this);
         }
-    }
-
-    @Override
-    public void onDisable() {
-        logger.info("Plugin Disabled.");
     }
 }
