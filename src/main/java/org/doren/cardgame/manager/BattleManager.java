@@ -8,6 +8,8 @@ import org.doren.cardgame.manager.battleListeners.PlayerCollisionDetection;
 import org.doren.cardgame.manager.battleListeners.PlayerDamageListener;
 import org.doren.cardgame.manager.battleListeners.PlayerRightClickListener;
 
+import java.util.Objects;
+
 public class BattleManager {
     public void init(YamlConfiguration config) {
 
@@ -22,7 +24,7 @@ public class BattleManager {
 
         // battle method
         String battleMethod = config.getString("battle-method");
-        switch (battleMethod.toLowerCase()) {
+        switch (Objects.requireNonNull(battleMethod).toLowerCase()) {
             case "collide":
                 new PlayerCollisionDetection();
                 break;
