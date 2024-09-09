@@ -44,23 +44,57 @@ public class LanguageManager {
     }
 
     /**
-     * Load the language configuration from the specified data folder and set the selected language.
+     * Initialize the language manager by loading the language configuration from the specified data folder.
      *
      * @param dataFolder The folder where the language configuration file is located.
      * @param config The main configuration file used to determine the selected language.
      */
     public void initializeLanguageManager(File dataFolder, YamlConfiguration config) {
-        allLanguagesConfig = YamlConfiguration.loadConfiguration(new File(dataFolder, "languages.yml"));
-        YamlConfiguration languageConfig = YamlConfiguration.loadConfiguration(new File(dataFolder, "languages.yml"));
+        YamlConfiguration languageConfig = loadLanguageConfig(dataFolder);
+
         if (languageConfig == null) {
             logger.warning("Cannot find the language config file.");
             return;
         }
 
+        String selectedLanguage = getSelectedLanguage(config);
+        setLanguageConfig(languageConfig, selectedLanguage);
+    }
+
+    /**
+     * Load the language configuration file from the specified data folder.
+     *
+     * @param dataFolder The folder where the language configuration file is located.
+     * @return The loaded YamlConfiguration or null if loading fails.
+     */
+    private YamlConfiguration loadLanguageConfig(File dataFolder) {
+        File languageFile = new File(dataFolder, "languages.yml");
+        if (!languageFile.exists()) {
+            return null;
+        }
+        return YamlConfiguration.loadConfiguration(languageFile);
+    }
+
+    /**
+     * Retrieve the selected language from the main configuration file.
+     *
+     * @param config The main configuration file.
+     * @return The selected language as a string.
+     */
+    private String getSelectedLanguage(YamlConfiguration config) {
+        return config.getString("language", "placeholder");
+    }
+
+    /**
+     * Set the language configuration based on the selected language.
+     *
+     * @param languageConfig The full language configuration file.
+     * @param selectedLanguage The selected language.
+     */
+    private void setLanguageConfig(YamlConfiguration languageConfig, String selectedLanguage) {
         try {
-            String selectedLanguage = config.getString("language");
             this.languageConfig = languageConfig.getConfigurationSection(selectedLanguage);
-            if (this.languageConfig == null || selectedLanguage == "placeholder") {
+            if (this.languageConfig == null || "placeholder".equals(selectedLanguage)) {
                 this.languageConfig = languageConfig.getConfigurationSection("en_US");
                 logger.warning("Invalid language: " + selectedLanguage + ". Using default language...");
             }
@@ -68,6 +102,5 @@ public class LanguageManager {
         } catch (Exception e) {
             logger.severe("Failed to load language configuration: " + e.getMessage());
         }
-
     }
 }
