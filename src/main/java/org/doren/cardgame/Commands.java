@@ -1,6 +1,5 @@
 package org.doren.cardgame;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.doren.cardgame.gui.GUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,14 +16,14 @@ import java.util.List;
 public class Commands implements CommandExecutor, TabCompleter {
     public Commands() {}
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
         if (command.getName().equalsIgnoreCase("cardgame")) {
+
             if (args.length == 0) return commandHelp(sender, null);
-            if (args.length >= 1) {
-                if (args[0].equalsIgnoreCase("help")) return commandHelp(sender, args);
-                if (args[0].equalsIgnoreCase("battle")) return commandBattle(sender, args);
-                if (args[0].equalsIgnoreCase("reload")) return commandReload(sender);
-            }
+
+            if (args[0].equalsIgnoreCase("help")) return commandHelp(sender, args);
+            if (args[0].equalsIgnoreCase("battle")) return commandBattle(sender, args);
+            if (args[0].equalsIgnoreCase("reload")) return commandReload(sender);
         }
         return false;
     }
@@ -39,9 +37,6 @@ public class Commands implements CommandExecutor, TabCompleter {
         if (args == null || args.length < 2) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',Utils.getLangData("cmd-help")));
             Inventory inv = new GUI().generateInventoryFromConfig("battleUI");
-            for (ItemStack i : inv.getContents()) {
-                Bukkit.getLogger().info(i.toString());
-            }
 
             Player player = (Player) sender;
             player.openInventory(inv);
@@ -75,8 +70,6 @@ public class Commands implements CommandExecutor, TabCompleter {
             commandHelp(sender, new String[] {"help", "battle"});
             return true;
         }
-
-        sender.sendMessage(args.toString());
         return false;
     }
 
