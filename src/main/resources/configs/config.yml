@@ -1,0 +1,15 @@
+# Available: en_US,zh_CN,zh_HK,zh_TW
+language: en_US
+
+# This is how player versus player battles begin
+# value: right-click,left-click,shift-left-click,shift-right-click,collide
+# right-click - Player Right-Clicked
+# left-click - Player Left-Clicked
+# shift-right-click - Player Sneak Right-Clicked (default)
+# shift-left-click - Player Sneak Left-Clicked
+# collide - Player in a same position (distance <= 0.5) (May Cause Lag)
+battle-method: left-click
+
+# This is the requirement of the permission.
+# Player need the permission to start or accept a battle.
+battle-required-permissions: []

@@ -1,0 +1,8 @@
+placeholder:
+  plugin: 'Bukkit.getPluginManager().getPlugin("CardGame").getName()'
+en_US:
+  log-onenable: "%plugin% Successfully enabled."
+  cmd-help: "&m----&f [CardGame] &m----"
+  cmd-reload-successful: "reloaded all config."
+  cmd-OnlyPlayerCanExecute: "The Command can only use by player."
+  gui-title-battleUI: "CardGame » %player1% vs %player2%"

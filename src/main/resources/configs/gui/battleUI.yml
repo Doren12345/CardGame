@@ -1,0 +1,16 @@
+InventoryGUI:
+  - "a a a a a a a a a"
+  - "a a a a a a a a a"
+  - "a a a a a a a a a"
+  - "a a a a a a a a a"
+  - "a a a a a a a a a"
+  - "a a a a a a a a a"
+Items:
+  a:
+    material: GLASS_PANE
+    amount: 1
+    customModelData: 0
+    name: "&r"
+    lore:
+      - 'a'
+      - 'a'

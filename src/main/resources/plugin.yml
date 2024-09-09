@@ -1,0 +1,10 @@
+name: CardGame
+version: '${project.version}'
+main: org.doren.cardgame.CardGame
+api-version: '1.18'
+commands:
+  cardgame:
+    description: a command for cardgame plugin.
+    usage: /<command>
+    aliases: ["cg", "game"]
+    permission: CardGame.command
