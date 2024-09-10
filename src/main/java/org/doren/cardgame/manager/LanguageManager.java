@@ -13,6 +13,7 @@ public class LanguageManager {
     private static LanguageManager instance;
 
     private ConfigurationSection languageConfig;
+
     private YamlConfiguration allLanguagesConfig;
 
     /**
@@ -59,6 +60,7 @@ public class LanguageManager {
 
         String selectedLanguage = getSelectedLanguage(config);
         setLanguageConfig(languageConfig, selectedLanguage);
+        this.allLanguagesConfig = languageConfig;
     }
 
     /**
