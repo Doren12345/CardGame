@@ -56,7 +56,7 @@ public class GUI {
         Map<String, Object> itemsMap = ItemsSection.getValues(false);
         List<ItemStack> inventoryItems = buildInventoryItems(inventoryGUISlots, itemsMap);
 
-        if (inventoryItems == null) {
+        if (inventoryItems.isEmpty()) {
             plugin.getLogger().warning("Failed to build inventory items.");
             return null;
         }
