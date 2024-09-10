@@ -27,6 +27,10 @@ public class battleGUI implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
 
+    public Inventory getInventory() {
+        return this.inv;
+    }
+
     // Check for clicks on items
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent e) {

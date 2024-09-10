@@ -8,6 +8,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.doren.cardgame.gui.GUI;
+import org.doren.cardgame.gui.battle.battleGUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +25,7 @@ public class Commands implements CommandExecutor, TabCompleter {
         if (isCommandNotFoundOrHelp(args)) return handleHelpCommand(sender, args);
         if (args[0].equalsIgnoreCase("battle")) return handleBattleCommand(sender, args);
         if (args[0].equalsIgnoreCase("reload")) return handleReloadCommand(sender);
+        if (args[0].equalsIgnoreCase("test")) return handleTestCommand(sender, args);
 
         return false;
     }
@@ -68,6 +70,23 @@ public class Commands implements CommandExecutor, TabCompleter {
             return handleHelpCommand(sender, new String[] {"help", "battle"});
         }
         // 具體 battle 命令處理邏輯在此處實現
+        return true;
+    }
+
+    private boolean handleTestCommand(CommandSender sender, String[] args) {
+        if (args.length < 2) {
+            return handleHelpCommand(sender, new String[] {"help", "test"});
+        }
+
+        if (args[1] == "battleGUI") {
+            Inventory inv = new battleGUI().getInventory();
+            if (!inv.isEmpty()) {
+                Player player = (Player) sender;
+                player.openInventory(inv);
+            }
+            return true;
+        }
+
         return true;
     }
 
