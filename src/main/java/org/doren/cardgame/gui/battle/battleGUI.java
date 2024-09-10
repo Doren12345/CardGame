@@ -5,14 +5,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.doren.cardgame.gui.GUI;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.doren.cardgame.gui.ItemStackMarker.getItemMarker;
 
