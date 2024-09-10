@@ -15,9 +15,7 @@ public class Utils {
             throw new IllegalStateException("LanguageManager is not initialized.");
         }
 
-        String Lang = langManager.getLang(key);
-
-        return Lang;
+        return langManager.getLang(key);
     }
 
     /**
