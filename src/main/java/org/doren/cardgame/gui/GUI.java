@@ -27,7 +27,7 @@ public class GUI {
     public GUI() {}
 
     public void init() {
-        new battleGUI().init();
+        new battleGUI().init(plugin);
     }
 
     /**

@@ -2,6 +2,7 @@ package org.doren.cardgame;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.doren.cardgame.gui.GUI;
 import org.doren.cardgame.manager.BattleManager;
 import org.doren.cardgame.manager.LanguageManager;
 
@@ -32,6 +33,8 @@ public final class CardGame extends JavaPlugin {
 
         // 初始化戰鬥管理器
         new BattleManager().init(config);
+
+        new GUI().init();
 
         // 啟用信息
         logger.info(Utils.getLangData("log-onenable"));
