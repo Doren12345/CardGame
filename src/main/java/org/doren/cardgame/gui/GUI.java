@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GUI {
 
@@ -176,8 +177,16 @@ public class GUI {
         if (meta == null) return;
 
         meta.setCustomModelData(itemConfig.getInt("customModelData", 0));
-        meta.setDisplayName(itemConfig.getString("name", ""));
-        meta.setLore(itemConfig.getStringList("lore"));
+        String DisplayName = itemConfig.getString("name", "");
+        String ColoredDisplayName = Utils.translateColors(DisplayName);
+        meta.setDisplayName(ColoredDisplayName);
+
+        List<String> lore = itemConfig.getStringList("lore")
+                .stream()
+                .map(Utils::translateColors)
+                .collect(Collectors.toList());
+
+        meta.setLore(lore);
 
         itemStack.setItemMeta(meta);
     }
