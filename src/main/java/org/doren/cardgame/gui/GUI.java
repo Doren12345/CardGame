@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.doren.cardgame.CardGame;
 import org.doren.cardgame.Utils;
+import org.doren.cardgame.gui.battle.battleGUI;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class GUI {
 
     private final CardGame plugin = CardGame.getPlugin(CardGame.class);
 
+    public GUI() {}
     /**
      * 根據配置生成 Inventory
      *
@@ -189,6 +191,10 @@ public class GUI {
         meta.setLore(lore);
 
         itemStack.setItemMeta(meta);
+
+        // Marker
+        String GUIAction = itemConfig.getString("action", "cancel");
+        new ItemStackMarker().markItemStack(itemStack, "GUIAction", GUIAction);
     }
 
     /**
