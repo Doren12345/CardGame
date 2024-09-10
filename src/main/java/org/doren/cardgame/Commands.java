@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.doren.cardgame.gui.GUI;
 import org.doren.cardgame.gui.battle.battleGUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
