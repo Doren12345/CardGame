@@ -16,15 +16,13 @@ import static org.doren.cardgame.gui.ItemStackMarker.getItemMarker;
 
 public class battleGUI implements Listener {
     private Inventory inv;
-    private Plugin plugin;
 
     public battleGUI() {}
 
     public void init(Plugin plugin) {
         inv = new GUI().generateInventoryFromConfig("battleUI");
-        this.plugin = plugin;
 
-        Bukkit.getServer().getPluginManager().registerEvents(this, this.plugin);
+        Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     public Inventory getInventory() {
