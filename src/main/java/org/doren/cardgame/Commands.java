@@ -77,7 +77,7 @@ public class Commands implements CommandExecutor, TabCompleter {
             return handleHelpCommand(sender, new String[] {"help", "test"});
         }
 
-        if (args[1] == "battleGUI") {
+        if (args[1].equalsIgnoreCase("battleGUI")) {
             Inventory inv = new battleGUI().getInventory();
             if (!inv.isEmpty()) {
                 Player player = (Player) sender;
