@@ -18,11 +18,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.doren.cardgame.gui.ItemStackMarker.markItemStack;
+
 public class GUI {
 
     private final CardGame plugin = CardGame.getPlugin(CardGame.class);
 
     public GUI() {}
+
+    public void init() {
+        new battleGUI().init();
+    }
+
     /**
      * 根據配置生成 Inventory
      *
@@ -194,7 +201,7 @@ public class GUI {
 
         // Marker
         String GUIAction = itemConfig.getString("action", "cancel");
-        new ItemStackMarker().markItemStack(itemStack, "GUIAction", GUIAction);
+        markItemStack(itemStack, "GUIAction", GUIAction);
     }
 
     /**
