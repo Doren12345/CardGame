@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -48,7 +49,12 @@ public class GUI {
 
         List<String> inventoryGUISlots = parseInventoryGUISlots(inventoryGUIStrings);
 
-        Map<String, Object> itemsMap = config.getConfigurationSection("Items").getValues(false);
+        ConfigurationSection ItemsSection = config.getConfigurationSection("Items");
+        if (ItemsSection == null) {
+            plugin.getLogger().warning("Failed to load ItemsSection.");
+            return null;
+        }
+        Map<String, Object> itemsMap = ItemsSection.getValues(false);
         List<ItemStack> inventoryItems = buildInventoryItems(inventoryGUISlots, itemsMap);
 
         if (inventoryItems == null) {
@@ -109,6 +115,7 @@ public class GUI {
     /**
      * 創建 Inventory
      */
+    @SuppressWarnings("deprecation")
     private Inventory createInventory(String guiName, int rowCount) {
         int inventorySize = rowCount * 9;
         String title = Utils.getLangData("gui-title-" + guiName);
@@ -181,6 +188,7 @@ public class GUI {
     /**
      * 設置 ItemMeta
      */
+    @SuppressWarnings("deprecation")
     private void setItemMeta(ItemStack itemStack, ConfigurationSection itemConfig) {
         ItemMeta meta = itemStack.getItemMeta();
         if (meta == null) return;
