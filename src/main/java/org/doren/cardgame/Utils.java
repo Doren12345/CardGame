@@ -3,8 +3,6 @@ package org.doren.cardgame;
 import net.md_5.bungee.api.ChatColor;
 import org.doren.cardgame.manager.LanguageManager;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,12 +16,6 @@ public class Utils {
         }
 
         String Lang = langManager.getLang(key);
-
-        Map<String, String> placeholders = new HashMap<>();
-
-        for (String placeholder : placeholders.values()) {
-            Lang.replaceAll(placeholder, placeholders.get(placeholder));
-        }
 
         return Lang;
     }
