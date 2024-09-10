@@ -25,6 +25,7 @@ public class Utils {
      * @param text The input string with legacy and/or hex color codes.
      * @return The string with color codes replaced by Minecraft-compatible codes.
      */
+    @SuppressWarnings("deprecation")
     public static String translateColors(String text) {
         // Convert legacy color codes (&1, &2, etc.) to Minecraft color codes (§1, §2, etc.)
         String translatedText = ChatColor.translateAlternateColorCodes('&', text);
