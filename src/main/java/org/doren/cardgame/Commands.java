@@ -54,8 +54,6 @@ public class Commands implements CommandExecutor, TabCompleter {
 
     private void sendHelpMessage(Player player) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.getLangData("cmd-help")));
-        Inventory inv = new GUI().generateInventoryFromConfig("battleUI");
-        player.openInventory(inv);
     }
 
     private boolean handleReloadCommand(CommandSender sender) {
